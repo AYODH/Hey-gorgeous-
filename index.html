@@ -182,34 +182,99 @@
             50%      { transform: rotate(5deg)  scale(1.06); }
         }
 
-        /* ── Scene 1: Flowers ── */
+        /* ── Scene 1: Bouquet ── */
         .bouquet {
-            font-size: 3rem;
-            margin: 0.6rem 0 1.4rem;
-            display: flex;
-            gap: 0.4rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 300px;
+            position: relative;
+            width: 240px;
+            height: 290px;
+            margin: 0.2rem auto 1rem;
+            flex-shrink: 0;
         }
 
-        .flower {
-            display: inline-block;
-            animation: popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+        /* Wrapping paper cone */
+        .bwrap {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 152px;
+            height: 148px;
+            z-index: 5;
+            animation: wrapRise 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
         }
 
-        .flower:nth-child(1) { animation-delay: 0.05s; }
-        .flower:nth-child(2) { animation-delay: 0.18s; }
-        .flower:nth-child(3) { animation-delay: 0.31s; }
-        .flower:nth-child(4) { animation-delay: 0.44s; }
-        .flower:nth-child(5) { animation-delay: 0.57s; }
-        .flower:nth-child(6) { animation-delay: 0.70s; }
-        .flower:nth-child(7) { animation-delay: 0.83s; }
+        .bwrap-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #ffd6e8 0%, #ffadc8 40%, #ff6b8a 100%);
+            clip-path: polygon(7% 0%, 93% 0%, 80% 100%, 20% 100%);
+            position: relative;
+            overflow: hidden;
+        }
 
-        @keyframes popIn {
-            from { transform: scale(0) rotate(-20deg); opacity: 0; }
+        .bwrap-inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.32) 2.5px, transparent 2.5px);
+            background-size: 15px 15px;
+        }
+
+        .bwrap-inner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.18) 0%, transparent 40%, rgba(255,255,255,0.1) 100%);
+        }
+
+        @keyframes wrapRise {
+            from { transform: translateX(-50%) translateY(30px) scaleY(0.5); opacity: 0; }
+            to   { transform: translateX(-50%) translateY(0)    scaleY(1);   opacity: 1; }
+        }
+
+        /* Ribbon bow sits at the mouth of the wrapper */
+        .bbow {
+            position: absolute;
+            left: 50%;
+            bottom: 140px;
+            transform: translateX(-50%) scale(0);
+            font-size: 2.1rem;
+            z-index: 6;
+            animation: bowPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+            animation-delay: 0.45s;
+        }
+
+        @keyframes bowPop {
+            from { transform: translateX(-50%) scale(0) rotate(-15deg); }
+            to   { transform: translateX(-50%) scale(1) rotate(0); }
+        }
+
+        /* Individual flowers & leaves */
+        .bf, .bleaf {
+            position: absolute;
+            animation: bpop 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+
+        @keyframes bpop {
+            from { transform: scale(0) rotate(-18deg); opacity: 0; }
             to   { transform: scale(1) rotate(0);      opacity: 1; }
         }
+
+        /* Leaves — behind (z:2) */
+        .bleaf { z-index: 2; }
+        .l1 { top: 78px;  left: 4px;   font-size: 2rem;   animation-delay: 0.5s;  }
+        .l2 { top: 66px;  left: 200px; font-size: 2rem;   animation-delay: 0.5s;  }
+        .l3 { top: 112px; left: 91px;  font-size: 1.8rem; animation-delay: 0.55s; }
+
+        /* Flowers — front (z:3/4) */
+        .bf { z-index: 3; }
+        .f1 { top: 0;    left: 98px;  font-size: 3rem;   z-index: 4; animation-delay: 0.6s;  }
+        .f2 { top: 28px; left: 18px;  font-size: 2.4rem; z-index: 3; animation-delay: 0.72s; }
+        .f3 { top: 26px; left: 168px; font-size: 2.5rem; z-index: 3; animation-delay: 0.72s; }
+        .f4 { top: 38px; left: 97px;  font-size: 2.1rem; z-index: 3; animation-delay: 0.78s; }
+        .f5 { top: 70px; left: 36px;  font-size: 2.8rem; z-index: 4; animation-delay: 0.85s; }
+        .f6 { top: 68px; left: 152px; font-size: 2.7rem; z-index: 4; animation-delay: 0.85s; }
+        .f7 { top: 106px; left: 90px; font-size: 2.4rem; z-index: 4; animation-delay: 0.92s; }
 
         /* ── Scene 2: Gift ── */
         .gift-wrap {
@@ -470,14 +535,22 @@
 <div class="scene" id="scene-1">
     <p class="label">step one</p>
     <h1 class="heading">First things first...</h1>
-    <div class="bouquet">
-        <span class="flower">🌹</span>
-        <span class="flower">🌷</span>
-        <span class="flower">🌸</span>
-        <span class="flower">🌺</span>
-        <span class="flower">💐</span>
-        <span class="flower">🌻</span>
-        <span class="flower">🌹</span>
+    <div class="bouquet" id="bouquet">
+        <!-- leaves (behind) -->
+        <span class="bleaf l1">🍃</span>
+        <span class="bleaf l2">🍃</span>
+        <span class="bleaf l3">🌿</span>
+        <!-- flowers (front) -->
+        <span class="bf f1">🌹</span>
+        <span class="bf f2">🌷</span>
+        <span class="bf f3">🌸</span>
+        <span class="bf f4">🌺</span>
+        <span class="bf f5">🌻</span>
+        <span class="bf f6">🌼</span>
+        <span class="bf f7">🌹</span>
+        <!-- wrapper & bow -->
+        <div class="bwrap"><div class="bwrap-inner"></div></div>
+        <span class="bbow">🎀</span>
     </div>
     <p class="sub">I brought you flowers. Because you light up every room you walk into, and you deserve them every&nbsp;single&nbsp;day.</p>
     <button class="btn" onclick="goTo(2)">They're beautiful&nbsp;&nbsp;🥹</button>
@@ -591,11 +664,15 @@ function goTo(next) {
     step = next;
 
     if (next === 1) {
-        document.querySelectorAll('.flower').forEach(f => {
-            f.style.animation = 'none';
-            void f.offsetHeight;
-            f.style.animation = '';
+        document.querySelectorAll('#bouquet .bf, #bouquet .bleaf, #bouquet .bbow').forEach(el => {
+            el.style.animation = 'none';
+            void el.offsetHeight;
+            el.style.animation = '';
         });
+        const wrap = document.querySelector('.bwrap');
+        wrap.style.animation = 'none';
+        void wrap.offsetHeight;
+        wrap.style.animation = '';
     }
     if (next === 4) {
         document.querySelectorAll('.slay-line').forEach(l => {
