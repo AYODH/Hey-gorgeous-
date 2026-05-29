@@ -34,6 +34,9 @@
         .bg-3 { background: radial-gradient(ellipse at 50% 90%, #3d0a1e 0%, #160308 100%); }
         .bg-4 { background: radial-gradient(ellipse at 40% 10%, #2a0840 0%, #0e0318 100%); }
         .bg-5 { background: radial-gradient(ellipse at 50% 50%, #50091a 0%, #1a020a 100%); }
+        .bg-6 { background: radial-gradient(ellipse at 30% 70%, #0e1a3d 0%, #060b1a 100%); }
+        .bg-7 { background: radial-gradient(ellipse at 70% 30%, #2e0a1e 0%, #120408 100%); }
+        .bg-8 { background: radial-gradient(ellipse at 50% 50%, #4a0812 0%, #180205 100%); }
 
         /* ── Stars ── */
         #stars {
@@ -606,6 +609,138 @@
             56%     { transform: scale(1);     }
         }
 
+        /* ── Scenes 5-7: Date planner ── */
+        #scene-5, #scene-6, #scene-7 { justify-content: flex-start; padding-top: 3rem; }
+
+        .dt-picker {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 0.9rem; margin: 0.9rem 0 1.5rem; width: 100%;
+        }
+
+        .date-input {
+            background: rgba(255,255,255,0.08);
+            border: 1.5px solid rgba(255,255,255,0.25);
+            color: #fff; font-family: 'Quicksand', sans-serif;
+            font-size: 1rem; font-weight: 600;
+            padding: 0.7rem 1.3rem; border-radius: 14px; outline: none;
+            backdrop-filter: blur(6px); cursor: pointer; width: 220px;
+            text-align: center;
+        }
+
+        .date-input::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.65; cursor: pointer; }
+
+        .dt-label {
+            font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255,255,255,0.4); margin: 0;
+        }
+
+        .time-chips {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem; width: 100%; max-width: 340px;
+        }
+
+        .time-chip, .food-chip, .dtype-card {
+            font-family: 'Quicksand', sans-serif; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(6px); user-select: none; transition: all 0.2s;
+            background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .time-chip {
+            padding: 0.7rem 0.8rem; border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; gap: 0.22rem;
+            text-align: center;
+        }
+
+        .t-time {
+            font-size: 1.25rem; font-weight: 700; letter-spacing: 1px;
+            font-family: 'Playfair Display', serif; line-height: 1;
+        }
+
+        .t-reason {
+            font-size: 0.7rem; opacity: 0.7; font-style: italic; line-height: 1.3;
+        }
+
+        .time-chip:hover, .time-chip.sel {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            border-color: transparent; color: #fff;
+            box-shadow: 0 3px 14px rgba(192,71,106,0.5); transform: translateY(-2px);
+        }
+        .time-chip.sel .t-reason { opacity: 0.9; }
+
+        /* Shared full-width "Other" card — same look as time picker Other */
+        .pick-other {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0.22rem !important;
+            padding: 0.7rem 0.8rem !important;
+            border-radius: 16px !important;
+        }
+        .pick-other .t-time {
+            font-size: 1.1rem; font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px; line-height: 1; color: #fff;
+        }
+        .pick-other .t-reason {
+            font-size: 0.7rem; opacity: 0.7;
+            font-style: italic; line-height: 1.3;
+        }
+        .food-grid .pick-other    { width: 100%; }
+        .date-type-grid .pick-other { grid-column: span 3; }
+
+        .other-input {
+            background: rgba(255,255,255,0.08);
+            border: 1.5px solid rgba(255,255,255,0.28);
+            color: #fff; font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem; font-weight: 500;
+            padding: 0.6rem 1rem; border-radius: 12px; outline: none;
+            width: 100%; max-width: 300px; margin-top: 0.4rem;
+            display: none; text-align: center;
+            transition: border-color 0.2s;
+        }
+        .other-input::placeholder { color: rgba(255,255,255,0.3); }
+        .other-input:focus { border-color: var(--pink); }
+        .other-input.show { display: block; }
+
+        .food-grid {
+            display: flex; flex-wrap: wrap; gap: 0.48rem;
+            justify-content: center; max-width: 380px;
+            margin: 0.3rem auto 1.2rem;
+            max-height: 44vh; overflow-y: auto; padding: 0.2rem 0.4rem;
+        }
+
+        .food-chip {
+            font-size: 0.85rem; padding: 0.42rem 0.95rem; border-radius: 50px;
+        }
+
+        .food-chip:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
+        .food-chip.sel {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            border-color: transparent; color: #fff;
+            box-shadow: 0 2px 12px rgba(192,71,106,0.45);
+        }
+
+        .date-type-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 0.55rem; max-width: 380px; margin: 0.5rem auto 1.1rem;
+            max-height: 50vh; overflow-y: auto; padding: 0.15rem 0.2rem;
+        }
+
+        .dtype-card {
+            font-size: 0.75rem; padding: 0.65rem 0.4rem; border-radius: 14px;
+            display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+        }
+
+        .dtype-icon { font-size: 1.45rem; }
+
+        .dtype-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        .dtype-card.sel {
+            background: linear-gradient(135deg, rgba(255,107,138,0.3), rgba(192,71,106,0.3));
+            border-color: var(--pink); color: #fff;
+            box-shadow: 0 3px 16px rgba(192,71,106,0.4); transform: translateY(-2px);
+        }
+
         /* ── Burst ── */
         .burst {
             position: fixed;
@@ -699,6 +834,9 @@
 
 <div id="progress">
     <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
@@ -868,7 +1006,7 @@
         <span class="candle">🕯️</span>
     </div>
     <p class="date-q">"So there's something I've been wanting to ask you..."</p>
-    <h1 class="heading" style="margin-bottom:1.6rem">Will you go on a<br>date with me?&nbsp;🥂</h1>
+    <h1 class="heading" style="margin-bottom:1.6rem">Will you go on a<br>date with me?</h1>
     <div class="date-buttons">
         <button class="btn btn-glow" onclick="goTo(4)">Yes, obviously!&nbsp;&nbsp;💕</button>
         <button class="btn" id="btn-no">Hmm... no?</button>
@@ -882,17 +1020,98 @@
     <h1 class="heading">I knew it.</h1>
     <div class="slay-lines">
         <p class="slay-line">Honestly? You have <em style="color:var(--gold);font-style:italic">exceptional</em> taste.</p>
-        <p class="slay-line">I mean... I'm quite the catch. Just saying.&nbsp;💅</p>
-        <p class="slay-line">Lucky for both of us, I'm completely obsessed with you too.&nbsp;🫦</p>
+        <p class="slay-line">I mean... I'm quite the catch. Just saying.</p>
+        <p class="slay-line">Lucky for both of us, I'm completely obsessed with you too.</p>
     </div>
-    <button class="btn btn-glow" onclick="goTo(5)">Okay okay, I see you&nbsp;&nbsp;👀</button>
+    <button class="btn btn-glow" onclick="goTo(5)">Okay okay, I see you</button>
 </div>
 
-<!-- ── 5: Kiss ── -->
+<!-- ── 5: When? ── -->
 <div class="scene" id="scene-5">
+    <p class="label">now for the details</p>
+    <h1 class="heading">When should I<br><em>pick you up?</em></h1>
+    <div class="dt-picker">
+        <input type="date" id="dateInput" class="date-input">
+        <p class="dt-label">What time works?</p>
+        <div class="time-chips">
+            <button class="time-chip" data-t="2:00 PM">
+                <span class="t-time">2:00 PM</span>
+                <span class="t-reason">lunch has settled,<br>we're ready to go</span>
+            </button>
+            <button class="time-chip" data-t="4:00 PM">
+                <span class="t-time">4:00 PM</span>
+                <span class="t-reason">golden hour energy,<br>best lighting ever</span>
+            </button>
+            <button class="time-chip" data-t="6:00 PM">
+                <span class="t-time">6:00 PM</span>
+                <span class="t-reason">skies go pink,<br>night lights wake up</span>
+            </button>
+            <button class="time-chip" data-t="7:00 PM">
+                <span class="t-time">7:00 PM</span>
+                <span class="t-reason">city night lights<br>are *chef's kiss*</span>
+            </button>
+            <button class="time-chip" data-t="10:00 PM" style="grid-column:span 2;max-width:calc(50% - 0.3rem);margin:0 auto">
+                <span class="t-time">10:00 PM</span>
+                <span class="t-reason">late night vibes,<br>just us & the stars</span>
+            </button>
+            <button class="time-chip" data-t="other" style="grid-column:span 2">
+                <span class="t-time">Other</span>
+                <span class="t-reason">I have a specific time in my mind</span>
+            </button>
+        </div>
+        <input type="text" id="timeOtherInput" class="other-input" placeholder="e.g. 8:00 PM, noon, 10:30 AM...">
+    </div>
+    <button class="btn btn-glow" onclick="goTo(6)">Perfect&nbsp;&nbsp;✨</button>
+</div>
+
+<!-- ── 6: Food ── -->
+<div class="scene" id="scene-6">
+    <p class="label">the important stuff</p>
+    <h1 class="heading">What are we<br><em>eating?</em></h1>
+    <p class="sub" style="margin-bottom:0.5rem;font-size:0.88rem">Pick everything that sounds good</p>
+    <div class="food-grid" id="foodGrid"></div>
+    <input type="text" id="foodOtherInput" class="other-input" placeholder="anything else you're craving...">
+    <button class="btn btn-glow" style="margin-top:0.9rem" onclick="goTo(7)">Yes to all of this&nbsp;&nbsp;😋</button>
+</div>
+
+<!-- ── 7: Date type ── -->
+<div class="scene" id="scene-7">
+    <p class="label">last question, promise 🤞</p>
+    <h1 class="heading">What kind of<br><em>date?</em></h1>
+    <div class="date-type-grid">
+        <button class="dtype-card" data-dt="Movie Date"><span class="dtype-icon">🎬</span>Movie Date</button>
+        <button class="dtype-card" data-dt="Beach Date"><span class="dtype-icon">🏖️</span>Beach Date</button>
+        <button class="dtype-card" data-dt="Camping"><span class="dtype-icon">🏕️</span>Camping</button>
+        <button class="dtype-card" data-dt="Concert"><span class="dtype-icon">🎵</span>Concert</button>
+        <button class="dtype-card" data-dt="Playdium"><span class="dtype-icon">🎮</span>Playdium</button>
+        <button class="dtype-card" data-dt="Arcade"><span class="dtype-icon">🕹️</span>Arcade</button>
+        <button class="dtype-card" data-dt="Dinner Date"><span class="dtype-icon">🍽️</span>Dinner Date</button>
+        <button class="dtype-card" data-dt="Picnic"><span class="dtype-icon">🌿</span>Picnic</button>
+        <button class="dtype-card" data-dt="Stargazing"><span class="dtype-icon">🌌</span>Stargazing</button>
+        <button class="dtype-card" data-dt="Shopping"><span class="dtype-icon">🛍️</span>Shopping</button>
+        <button class="dtype-card" data-dt="Karaoke"><span class="dtype-icon">🎤</span>Karaoke</button>
+        <button class="dtype-card" data-dt="Road Trip"><span class="dtype-icon">🚗</span>Long Drive</button>
+        <button class="dtype-card" data-dt="Ice Skating"><span class="dtype-icon">⛸️</span>Ice Skating</button>
+        <button class="dtype-card" data-dt="Meal Hangout"><span class="dtype-icon">🥗</span>Meal Hangout</button>
+        <button class="dtype-card" data-dt="Museum"><span class="dtype-icon">🏛️</span>Museum</button>
+        <button class="dtype-card" data-dt="Night Ride"><span class="dtype-icon">🌃</span>Night Ride/Walk</button>
+        <button class="dtype-card" data-dt="Kayaking"><span class="dtype-icon">🛶</span>Kayaking</button>
+        <button class="dtype-card" data-dt="Karting"><span class="dtype-icon">🏎️</span>Karting</button>
+        <button class="dtype-card pick-other" data-dt="other">
+            <span class="t-time">Other</span>
+            <span class="t-reason">I have something else in my mind</span>
+        </button>
+    </div>
+    <input type="text" id="dtypeOtherInput" class="other-input" placeholder="Dream it up...">
+    <button class="btn btn-glow" style="margin-top:1rem" onclick="sendToWhatsApp()">Send it&nbsp;&nbsp;💬</button>
+</div>
+
+<!-- ── 8: Kiss ── -->
+<div class="scene" id="scene-8">
     <p class="label">finally</p>
     <h1 class="heading">Now... close your eyes.</h1>
-    <p class="sub" style="margin-bottom:0.4rem">Here's a little something I've been saving just for you.</p>
+    <p class="sub" style="margin-bottom:0.3rem">Here's a little something I've been saving just for you.</p>
+    <p id="date-summary" class="sub" style="font-size:0.82rem;color:var(--gold);margin-bottom:0.4rem;font-style:italic;font-family:'Playfair Display',serif"></p>
     <button class="kiss-btn" id="kissBtn" aria-label="Send a kiss">💋</button>
     <p class="sub" style="font-size:0.85rem;opacity:0.5;margin:0">tap the kiss&nbsp;&nbsp;🌹</p>
 </div>
@@ -916,6 +1135,9 @@ const stepPools = [
     ['💝','✨','💛','🎀','⭐'],
     ['🕯️','💕','🥂','💗','🌹'],
     ['💅','✨','💜','💫','🪄'],
+    ['📅','🗓️','💫','✨','💕'],
+    ['🍔','🍣','🧋','🍕','🍟','🥤'],
+    ['🎬','🏖️','🎮','🌿','🎵','✨'],
     ['💋','💕','💗','💖','✨','🌹'],
 ];
 let currentPool = stepPools[0];
@@ -943,9 +1165,112 @@ function restartFlowers() {
     el.parentNode.replaceChild(clone, el);
 }
 
+// ── Date planner state ───────────────────────────────────────────────────────
+let pickedDate = '', pickedTime = '', pickedFoods = new Set(), pickedDateType = '', customFoodText = '';
+
+// Scene 5 — time chips
+document.querySelectorAll('.time-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-chip').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        const inp = document.getElementById('timeOtherInput');
+        if (btn.dataset.t === 'other') {
+            inp.classList.add('show');
+            inp.focus();
+            pickedTime = inp.value;
+        } else {
+            inp.classList.remove('show');
+            pickedTime = btn.dataset.t;
+        }
+    });
+});
+document.getElementById('timeOtherInput').addEventListener('input', e => { pickedTime = e.target.value; });
+
+// Set date input min to today
+document.getElementById('dateInput').min = new Date().toISOString().split('T')[0];
+document.getElementById('dateInput').addEventListener('change', e => pickedDate = e.target.value);
+
+// Scene 6 — food grid (generated)
+const foods = [
+    '🍔 Burgers','🍣 Sushi','🧋 Boba','☕ Coffee','🥟 Dumplings',
+    '🍕 Pizza','🍝 Pasta','🥤 Milkshakes','🍟 Fries','🍗 Nuggets',
+    '🌮 Street Food','🍜 Ramen','🫕 Hot Pot','🍦 Ice Cream','🧇 Waffles',
+    '🍱 Bento','🥞 Pancakes','🍩 Donuts',
+];
+const foodGrid = document.getElementById('foodGrid');
+foods.forEach(f => {
+    const btn = document.createElement('button');
+    btn.className = 'food-chip';
+    btn.textContent = f;
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('sel');
+        btn.classList.contains('sel') ? pickedFoods.add(f) : pickedFoods.delete(f);
+    });
+    foodGrid.appendChild(btn);
+});
+
+// Other food chip
+const foodOtherBtn = document.createElement('button');
+foodOtherBtn.className = 'food-chip pick-other';
+foodOtherBtn.innerHTML = '<span class="t-time">Other</span><span class="t-reason">anything else you\'re craving...</span>';
+foodOtherBtn.addEventListener('click', () => {
+    foodOtherBtn.classList.toggle('sel');
+    const inp = document.getElementById('foodOtherInput');
+    if (foodOtherBtn.classList.contains('sel')) {
+        inp.classList.add('show'); inp.focus();
+    } else {
+        inp.classList.remove('show');
+        customFoodText = ''; inp.value = '';
+    }
+});
+foodGrid.appendChild(foodOtherBtn);
+document.getElementById('foodOtherInput').addEventListener('input', e => { customFoodText = e.target.value; });
+
+// Scene 7 — date type cards
+document.querySelectorAll('.dtype-card').forEach(card => {
+    card.addEventListener('click', () => {
+        document.querySelectorAll('.dtype-card').forEach(c => c.classList.remove('sel'));
+        card.classList.add('sel');
+        const inp = document.getElementById('dtypeOtherInput');
+        if (card.dataset.dt === 'other') {
+            inp.classList.add('show');
+            inp.focus();
+            pickedDateType = inp.value;
+        } else {
+            inp.classList.remove('show');
+            pickedDateType = card.dataset.dt;
+        }
+    });
+});
+document.getElementById('dtypeOtherInput').addEventListener('input', e => { pickedDateType = e.target.value; });
+
+// ── WhatsApp send ─────────────────────────────────────────────────────────────
+function sendToWhatsApp() {
+    const PHONE = '94710592660';
+    const dateStr = pickedDate
+        ? new Date(pickedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
+        : 'still deciding 🗓️';
+    const allFoods = [...pickedFoods, ...(customFoodText ? [customFoodText] : [])];
+    const foodStr = allFoods.length ? allFoods.join(', ') : 'surprise me 😄';
+
+    const msg = [
+        '💌 Hey Babe! My date picks are in...',
+        '',
+        `📅  Date: ${dateStr}`,
+        `🕐  Time: ${pickedTime || 'TBD'}`,
+        `🎯  Vibe: ${pickedDateType || 'TBD'}`,
+        `🍴  Food & Drinks: ${foodStr}`,
+        '',
+        "Can't wait 🥹✨"
+    ].join('\n');
+
+    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+    goTo(8);
+}
+
 // ── Step navigation ──────────────────────────────────────────────────────────
 let step = 0;
-const bgClasses = ['bg-0','bg-1','bg-2','bg-3','bg-4','bg-5'];
+const bgClasses = ['bg-0','bg-1','bg-2','bg-3','bg-4','bg-5','bg-6','bg-7','bg-8'];
 
 function goTo(next) {
     const from = document.getElementById(`scene-${step}`);
@@ -969,6 +1294,19 @@ function goTo(next) {
             void l.offsetHeight;
             l.style.animation = '';
         });
+    }
+    if (next === 8) {
+        const parts = [];
+        if (pickedDateType) parts.push(pickedDateType);
+        if (pickedDate) {
+            const d = new Date(pickedDate + 'T12:00:00');
+            parts.push(d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }));
+        }
+        if (pickedTime) parts.push('in the ' + pickedTime.toLowerCase());
+        const allF = [...pickedFoods, ...(customFoodText ? [customFoodText] : [])];
+        if (allF.length) parts.push(allF.join(', '));
+        const summary = document.getElementById('date-summary');
+        summary.textContent = parts.length ? parts.join(' · ') + ' 💖' : '';
     }
 }
 
