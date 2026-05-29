@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Love Story 💌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #f7c05a;
+            --pink: #ff6b8a;
+            --rose: #c0476a;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ── Background ── */
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            transition: background 1.4s ease;
+        }
+
+        .bg-0 { background: radial-gradient(ellipse at 60% 80%, #1b1b4b 0%, #07071c 100%); }
+        .bg-1 { background: radial-gradient(ellipse at 40% 20%, #1e3d2a 0%, #0b1910 100%); }
+        .bg-2 { background: radial-gradient(ellipse at 50% 50%, #3d1e08 0%, #180a03 100%); }
+        .bg-3 { background: radial-gradient(ellipse at 50% 90%, #3d0a1e 0%, #160308 100%); }
+        .bg-4 { background: radial-gradient(ellipse at 40% 10%, #2a0840 0%, #0e0318 100%); }
+        .bg-5 { background: radial-gradient(ellipse at 50% 50%, #50091a 0%, #1a020a 100%); }
+
+        /* ── Stars ── */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%,100% { opacity: 0.15; transform: scale(1); }
+            50%      { opacity: 1;    transform: scale(1.4); }
+        }
+
+        /* ── Ambient particles ── */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            animation: rise linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes rise {
+            0%   { transform: translateY(110vh) rotate(0deg);  opacity: 0;   }
+            8%   { opacity: 0.55; }
+            92%  { opacity: 0.25; }
+            100% { transform: translateY(-12vh) rotate(30deg); opacity: 0;   }
+        }
+
+        /* ── Scenes ── */
+        .scene {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.65s ease;
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scene.exit {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        /* ── Typography ── */
+        .label {
+            font-size: 0.72rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 0.7rem;
+        }
+
+        .heading {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 7vw, 3.4rem);
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 0.9rem;
+        }
+
+        .heading em { font-style: italic; color: var(--gold); }
+
+        .sub {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.75;
+            max-width: 380px;
+            margin: 0 auto 2rem;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            background: rgba(255,255,255,0.1);
+            border: 1.5px solid rgba(255,255,255,0.28);
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(6px);
+            letter-spacing: 0.4px;
+        }
+
+        .btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.55);
+            transform: translateY(-2px);
+        }
+
+        .btn:active { transform: scale(0.96); }
+
+        .btn-glow {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            border-color: transparent;
+            font-size: 1.1rem;
+            padding: 0.9rem 2.5rem;
+            box-shadow: 0 4px 22px rgba(192,71,106,0.55);
+        }
+
+        .btn-glow:hover {
+            background: linear-gradient(135deg, #ff85a0, #d4527a);
+            border-color: transparent;
+            box-shadow: 0 6px 32px rgba(192,71,106,0.7);
+        }
+
+        /* ── Scene 0: Intro ── */
+        #scene-0 .envelope {
+            font-size: 5.5rem;
+            margin-bottom: 1.4rem;
+            animation: wobble 3s ease-in-out infinite;
+            filter: drop-shadow(0 8px 28px rgba(255,255,255,0.18));
+        }
+
+        @keyframes wobble {
+            0%,100% { transform: rotate(-5deg) scale(1);    }
+            50%      { transform: rotate(5deg)  scale(1.06); }
+        }
+
+        /* ── Scene 1: Flowers ── */
+        .bouquet {
+            font-size: 3rem;
+            margin: 0.6rem 0 1.4rem;
+            display: flex;
+            gap: 0.4rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 300px;
+        }
+
+        .flower {
+            display: inline-block;
+            animation: popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+
+        .flower:nth-child(1) { animation-delay: 0.05s; }
+        .flower:nth-child(2) { animation-delay: 0.18s; }
+        .flower:nth-child(3) { animation-delay: 0.31s; }
+        .flower:nth-child(4) { animation-delay: 0.44s; }
+        .flower:nth-child(5) { animation-delay: 0.57s; }
+        .flower:nth-child(6) { animation-delay: 0.70s; }
+        .flower:nth-child(7) { animation-delay: 0.83s; }
+
+        @keyframes popIn {
+            from { transform: scale(0) rotate(-20deg); opacity: 0; }
+            to   { transform: scale(1) rotate(0);      opacity: 1; }
+        }
+
+        /* ── Scene 2: Gift ── */
+        .gift-wrap {
+            position: relative;
+            margin: 0.5rem 0 1.4rem;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .gift-emoji {
+            font-size: 6rem;
+            display: block;
+            filter: drop-shadow(0 6px 22px rgba(247,192,90,0.45));
+            transition: transform 0.15s;
+            user-select: none;
+        }
+
+        .gift-wrap:hover .gift-emoji:not(.opened) { transform: scale(1.08) rotate(6deg); }
+
+        .gift-emoji.shake {
+            animation: giftShake 0.55s ease;
+        }
+
+        @keyframes giftShake {
+            0%,100% { transform: rotate(0) scale(1);      }
+            20%     { transform: rotate(-9deg) scale(1.06); }
+            40%     { transform: rotate(9deg)  scale(1.06); }
+            60%     { transform: rotate(-5deg); }
+            80%     { transform: rotate(5deg);  }
+        }
+
+        .gift-reveal {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+            transform: translateX(-50%) scale(0);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 14px;
+            padding: 0.5rem 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--gold);
+            white-space: nowrap;
+            transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+            pointer-events: none;
+        }
+
+        .gift-reveal.show { transform: translateX(-50%) scale(1); }
+
+        /* ── Scene 3: Date ── */
+        .candles {
+            font-size: 2.2rem;
+            margin: 0.3rem 0 1.2rem;
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        .candle { animation: flicker 1.4s ease-in-out infinite alternate; }
+        .candle:nth-child(2) { animation-delay: 0.45s; }
+        .candle:nth-child(3) { animation-delay: 0.9s;  }
+
+        @keyframes flicker {
+            from { transform: scale(1)    rotate(-1deg); filter: brightness(1);   }
+            to   { transform: scale(1.1)  rotate(1deg);  filter: brightness(1.35); }
+        }
+
+        .date-q {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.4rem, 4.5vw, 2rem);
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .date-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        #btn-no {
+            font-size: 0.85rem;
+            padding: 0.55rem 1.3rem;
+            opacity: 0.65;
+        }
+
+        /* ── Scene 4: Slay ── */
+        .slay-icon {
+            font-size: 4rem;
+            margin-bottom: 0.8rem;
+            animation: sway 2.5s ease-in-out infinite;
+        }
+
+        @keyframes sway {
+            0%,100% { transform: rotate(-6deg); }
+            50%      { transform: rotate(6deg);  }
+        }
+
+        .slay-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            margin: 0.6rem 0 2rem;
+            max-width: 360px;
+        }
+
+        .slay-line {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.78);
+            animation: slideUp 0.5s ease both;
+        }
+
+        .slay-line:nth-child(1) { animation-delay: 0.15s; }
+        .slay-line:nth-child(2) { animation-delay: 0.45s; }
+        .slay-line:nth-child(3) { animation-delay: 0.75s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0);    }
+        }
+
+        /* ── Scene 5: Kiss ── */
+        .kiss-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 7rem;
+            display: block;
+            margin: 0.8rem auto 1.2rem;
+            animation: heartbeat 2s ease-in-out infinite;
+            filter: drop-shadow(0 8px 28px rgba(255,107,138,0.55));
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.12s ease;
+        }
+
+        .kiss-btn:hover  { animation: none; transform: scale(1.18) rotate(-6deg); }
+        .kiss-btn:active { transform: scale(0.87); }
+
+        @keyframes heartbeat {
+            0%,100% { transform: scale(1);     }
+            14%     { transform: scale(1.12);  }
+            28%     { transform: scale(1);     }
+            42%     { transform: scale(1.07);  }
+            56%     { transform: scale(1);     }
+        }
+
+        /* ── Burst ── */
+        .burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            animation: burstOut 1.15s ease-out forwards;
+        }
+
+        @keyframes burstOut {
+            0%   { transform: translate(0,0) scale(0.3); opacity: 1;   }
+            100% { transform: translate(var(--tx),var(--ty)) scale(1.2); opacity: 0; }
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255,255,255,0.22);
+            padding: 1.1rem 2.2rem;
+            border-radius: 22px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.45rem;
+            color: #fff;
+            z-index: 1000;
+            pointer-events: none;
+            animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+
+        .toast.out { animation: toastOut 0.35s ease forwards; }
+
+        @keyframes toastIn  {
+            from { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+            to   { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes toastOut {
+            to { transform: translate(-50%,-62%) scale(0.86); opacity: 0; }
+        }
+
+        /* ── Progress ── */
+        #progress {
+            position: fixed;
+            bottom: 1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.45rem;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.35s ease;
+        }
+
+        .dot.active {
+            background: rgba(255,255,255,0.85);
+            width: 22px;
+            border-radius: 3px;
+        }
+
+        /* ── Site watermark ── */
+        #watermark {
+            position: fixed;
+            top: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.22);
+            letter-spacing: 2px;
+            z-index: 20;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div id="bg" class="bg-0"></div>
+<div id="stars"></div>
+<div id="particles"></div>
+<div id="watermark">a little love story</div>
+
+<div id="progress">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+
+<!-- ── 0: Intro ── -->
+<div class="scene active" id="scene-0">
+    <div class="envelope">💌</div>
+    <p class="label">a little something for you</p>
+    <h1 class="heading">Hey, <em>gorgeous.</em></h1>
+    <p class="sub">I made you something. Take your time — it's all just for you.</p>
+    <button class="btn btn-glow" onclick="goTo(1)">Open it&nbsp;&nbsp;💫</button>
+</div>
+
+<!-- ── 1: Flowers ── -->
+<div class="scene" id="scene-1">
+    <p class="label">step one</p>
+    <h1 class="heading">First things first...</h1>
+    <div class="bouquet">
+        <span class="flower">🌹</span>
+        <span class="flower">🌷</span>
+        <span class="flower">🌸</span>
+        <span class="flower">🌺</span>
+        <span class="flower">💐</span>
+        <span class="flower">🌻</span>
+        <span class="flower">🌹</span>
+    </div>
+    <p class="sub">I brought you flowers. Because you light up every room you walk into, and you deserve them every&nbsp;single&nbsp;day.</p>
+    <button class="btn" onclick="goTo(2)">They're beautiful&nbsp;&nbsp;🥹</button>
+</div>
+
+<!-- ── 2: Gift ── -->
+<div class="scene" id="scene-2">
+    <p class="label">step two</p>
+    <h1 class="heading">And I wrapped something<br>up for you...</h1>
+    <div class="gift-wrap" id="giftWrap" onclick="openGift()">
+        <span class="gift-emoji" id="giftEmoji">🎁</span>
+        <div class="gift-reveal" id="giftReveal">My whole heart. It's yours.&nbsp;💝</div>
+    </div>
+    <p class="sub" id="giftText">Go on... tap it&nbsp;&nbsp;👆</p>
+    <button class="btn" id="giftNextBtn" onclick="goTo(3)" style="display:none">I'll keep it safe&nbsp;&nbsp;🥺</button>
+</div>
+
+<!-- ── 3: Date ── -->
+<div class="scene" id="scene-3">
+    <p class="label">step three</p>
+    <div class="candles">
+        <span class="candle">🕯️</span>
+        <span class="candle">🕯️</span>
+        <span class="candle">🕯️</span>
+    </div>
+    <p class="date-q">"So there's something I've been wanting to ask you..."</p>
+    <h1 class="heading" style="margin-bottom:1.6rem">Will you go on a<br>date with me?&nbsp;🥂</h1>
+    <div class="date-buttons">
+        <button class="btn btn-glow" onclick="goTo(4)">Yes, obviously!&nbsp;&nbsp;💕</button>
+        <button class="btn" id="btn-no">Hmm... no?</button>
+    </div>
+</div>
+
+<!-- ── 4: Slay ── -->
+<div class="scene" id="scene-4">
+    <p class="label">obviously</p>
+    <div class="slay-icon">😌</div>
+    <h1 class="heading">I knew it.</h1>
+    <div class="slay-lines">
+        <p class="slay-line">Honestly? You have <em style="color:var(--gold);font-style:italic">exceptional</em> taste.</p>
+        <p class="slay-line">I mean... I'm quite the catch. Just saying.&nbsp;💅</p>
+        <p class="slay-line">Lucky for both of us, I'm completely obsessed with you too.&nbsp;🫦</p>
+    </div>
+    <button class="btn btn-glow" onclick="goTo(5)">Okay okay, I see you&nbsp;&nbsp;👀</button>
+</div>
+
+<!-- ── 5: Kiss ── -->
+<div class="scene" id="scene-5">
+    <p class="label">finally</p>
+    <h1 class="heading">Now... close your eyes.</h1>
+    <p class="sub" style="margin-bottom:0.4rem">Here's a little something I've been saving just for you.</p>
+    <button class="kiss-btn" id="kissBtn" aria-label="Send a kiss">💋</button>
+    <p class="sub" style="font-size:0.85rem;opacity:0.5;margin:0">tap the kiss&nbsp;&nbsp;🌹</p>
+</div>
+
+<script>
+// ── Stars ───────────────────────────────────────────────────────────────────
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 130; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.4 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}vh;left:${Math.random()*100}vw;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*5}s;`;
+    starsEl.appendChild(s);
+}
+
+// ── Ambient particles ────────────────────────────────────────────────────────
+const partEl = document.getElementById('particles');
+const stepPools = [
+    ['✨','⭐','💫','🌟','❄️'],
+    ['🌸','🌹','🌷','💐','🌺','🍃'],
+    ['💝','✨','💛','🎀','⭐'],
+    ['🕯️','💕','🥂','💗','🌹'],
+    ['💅','✨','💜','💫','🪄'],
+    ['💋','💕','💗','💖','✨','🌹'],
+];
+let currentPool = stepPools[0];
+
+function spawnParticle() {
+    const el = document.createElement('span');
+    el.className = 'particle';
+    el.textContent = currentPool[Math.floor(Math.random() * currentPool.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (Math.random() * 1.2 + 0.5) + 'rem';
+    const dur = Math.random() * 10 + 8;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = Math.random() * 5 + 's';
+    partEl.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 6) * 1000);
+}
+for (let i = 0; i < 14; i++) spawnParticle();
+setInterval(spawnParticle, 850);
+
+// ── Step navigation ──────────────────────────────────────────────────────────
+let step = 0;
+const bgClasses = ['bg-0','bg-1','bg-2','bg-3','bg-4','bg-5'];
+
+function goTo(next) {
+    const from = document.getElementById(`scene-${step}`);
+    const to   = document.getElementById(`scene-${next}`);
+
+    from.classList.add('exit');
+    setTimeout(() => from.classList.remove('active','exit'), 380);
+    setTimeout(() => to.classList.add('active'), 300);
+
+    document.getElementById('bg').className = bgClasses[next];
+    starsEl.style.opacity = Math.max(0, 1 - next * 0.28).toFixed(2);
+    currentPool = stepPools[next];
+
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === next));
+    step = next;
+
+    if (next === 1) {
+        document.querySelectorAll('.flower').forEach(f => {
+            f.style.animation = 'none';
+            void f.offsetHeight;
+            f.style.animation = '';
+        });
+    }
+    if (next === 4) {
+        document.querySelectorAll('.slay-line').forEach(l => {
+            l.style.animation = 'none';
+            void l.offsetHeight;
+            l.style.animation = '';
+        });
+    }
+}
+
+// ── Gift ─────────────────────────────────────────────────────────────────────
+let giftOpened = false;
+function openGift() {
+    if (giftOpened) return;
+    giftOpened = true;
+    const emoji  = document.getElementById('giftEmoji');
+    const reveal = document.getElementById('giftReveal');
+    const text   = document.getElementById('giftText');
+    const btn    = document.getElementById('giftNextBtn');
+
+    emoji.classList.add('shake');
+    setTimeout(() => {
+        emoji.textContent = '💝';
+        emoji.classList.add('opened');
+        emoji.classList.remove('shake');
+        reveal.classList.add('show');
+        text.textContent = 'Hold on to it, okay? 🥹';
+        btn.style.display = 'inline-block';
+        btn.style.animation = 'slideUp 0.5s ease both';
+    }, 560);
+}
+
+// ── "No" button runs away ────────────────────────────────────────────────────
+let noCount = 0;
+const btnNo = document.getElementById('btn-no');
+
+function fleeNo() {
+    noCount++;
+    if (noCount >= 4) {
+        btnNo.style.transition = 'opacity 0.4s ease';
+        btnNo.style.opacity    = '0';
+        btnNo.style.pointerEvents = 'none';
+        return;
+    }
+    const pad  = 140;
+    const x    = Math.random() * (window.innerWidth  - pad);
+    const y    = Math.random() * (window.innerHeight - pad);
+    btnNo.style.position   = 'fixed';
+    btnNo.style.left       = x + 'px';
+    btnNo.style.top        = y + 'px';
+    btnNo.style.transition = 'left 0.18s ease, top 0.18s ease';
+}
+
+btnNo.addEventListener('mouseenter', fleeNo);
+btnNo.addEventListener('click', (e) => { e.preventDefault(); fleeNo(); });
+btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); fleeNo(); });
+
+// ── Kiss burst ───────────────────────────────────────────────────────────────
+const kissBtn  = document.getElementById('kissBtn');
+const burstSet = ['💋','💕','💗','💖','💓','✨','🌸','💝','🌹'];
+
+kissBtn.addEventListener('click', () => {
+    const rect = kissBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width  / 2;
+    const cy = rect.top  + rect.height / 2;
+
+    for (let i = 0; i < 24; i++) {
+        const el    = document.createElement('span');
+        el.className = 'burst';
+        el.textContent = burstSet[Math.floor(Math.random() * burstSet.length)];
+        const angle = (i / 24) * 360 + Math.random() * 8;
+        const dist  = Math.random() * 210 + 90;
+        el.style.setProperty('--tx', (Math.cos(angle * Math.PI / 180) * dist) + 'px');
+        el.style.setProperty('--ty', (Math.sin(angle * Math.PI / 180) * dist - 70) + 'px');
+        el.style.left = cx + 'px';
+        el.style.top  = cy + 'px';
+        el.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+        el.style.animationDelay = (Math.random() * 0.18) + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = '💋  Sent with love  💋';
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('out');
+        setTimeout(() => toast.remove(), 380);
+    }, 2000);
+});
+</script>
+</body>
+</html>
