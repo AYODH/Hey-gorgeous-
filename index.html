@@ -1103,7 +1103,7 @@
         </button>
     </div>
     <input type="text" id="dtypeOtherInput" class="other-input" placeholder="Dream it up...">
-    <button class="btn btn-glow" style="margin-top:1rem" onclick="sendToWhatsApp()">Send it&nbsp;&nbsp;💬</button>
+    <button class="btn btn-glow" style="margin-top:1rem" onclick="goTo(8)">Let's make it happen&nbsp;&nbsp;💕</button>
 </div>
 
 <!-- ── 8: Kiss ── -->
@@ -1114,6 +1114,7 @@
     <p id="date-summary" class="sub" style="font-size:0.82rem;color:var(--gold);margin-bottom:0.4rem;font-style:italic;font-family:'Playfair Display',serif"></p>
     <button class="kiss-btn" id="kissBtn" aria-label="Send a kiss">💋</button>
     <p class="sub" style="font-size:0.85rem;opacity:0.5;margin:0">tap the kiss&nbsp;&nbsp;🌹</p>
+    <button class="btn btn-glow" id="sendWaBtn" style="display:none;margin-top:1.2rem" onclick="sendToWhatsApp()">Send your picks&nbsp;&nbsp;💬</button>
 </div>
 
 <script>
@@ -1192,6 +1193,7 @@ document.getElementById('dateInput').addEventListener('change', e => pickedDate 
 
 // Scene 6 — food grid (generated)
 const foods = [
+    '🦐 Isso Wade at Galle Face',
     '🍔 Burgers','🍣 Sushi','🧋 Boba','☕ Coffee','🥟 Dumplings',
     '🍕 Pizza','🍝 Pasta','🥤 Milkshakes','🍟 Fries','🍗 Nuggets',
     '🌮 Street Food','🍜 Ramen','🫕 Hot Pot','🍦 Ice Cream','🧇 Waffles',
@@ -1265,7 +1267,6 @@ function sendToWhatsApp() {
     ].join('\n');
 
     window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
-    goTo(8);
 }
 
 // ── Step navigation ──────────────────────────────────────────────────────────
@@ -1302,7 +1303,7 @@ function goTo(next) {
             const d = new Date(pickedDate + 'T12:00:00');
             parts.push(d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }));
         }
-        if (pickedTime) parts.push('in the ' + pickedTime.toLowerCase());
+        if (pickedTime) parts.push('at ' + pickedTime.toLowerCase());
         const allF = [...pickedFoods, ...(customFoodText ? [customFoodText] : [])];
         if (allF.length) parts.push(allF.join(', '));
         const summary = document.getElementById('date-summary');
@@ -1390,6 +1391,14 @@ kissBtn.addEventListener('click', () => {
         toast.classList.add('out');
         setTimeout(() => toast.remove(), 380);
     }, 2000);
+
+    const waBtn = document.getElementById('sendWaBtn');
+    if (waBtn.style.display === 'none') {
+        setTimeout(() => {
+            waBtn.style.display = 'inline-block';
+            waBtn.style.animation = 'slideUp 0.5s ease both';
+        }, 2450);
+    }
 });
 </script>
 </body>
