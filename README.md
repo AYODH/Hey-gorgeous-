@@ -38,11 +38,11 @@ Classic arc, really.
 
 ## How to run it
 
-```
-open index.html
-```
+Just click the link like a normal human:
 
-That's it. Genuinely. Just open the file.
+👉 **[ayodh.github.io/Hey-gorgeous-](https://ayodh.github.io/Hey-gorgeous-/)**
+
+No installs. No terminals. No excuses.
 
 ---
 
